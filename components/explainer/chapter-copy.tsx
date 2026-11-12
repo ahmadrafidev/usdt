@@ -5,8 +5,8 @@ import { sideLabel, type Chapter, type PieceFilter } from "@/lib/chapters";
 
 const filters: { id: PieceFilter; label: string }[] = [
   { id: "all", label: "All" },
-  { id: "record", label: "Look up" },
-  { id: "tether", label: "From Tether" },
+  { id: "record", label: "Blockchain" },
+  { id: "tether", label: "Tether’s reports" },
 ];
 
 type ChapterCopyProps = {
@@ -22,7 +22,7 @@ export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCo
     <section
       ref={ref}
       id={chapter.id}
-      className="flex min-h-[78vh] scroll-mt-[calc(42vh+4.5rem)] flex-col justify-center px-5 py-16 sm:px-10 lg:min-h-[110vh] lg:scroll-mt-24 lg:px-14"
+      className="flex min-h-[78vh] scroll-mt-[calc(42vh+7rem)] flex-col justify-center px-5 py-16 sm:px-10 lg:min-h-[110vh] lg:scroll-mt-32 lg:px-14"
     >
       {chapter.side ? (
         <p className="mb-4 w-fit rounded-full border border-[var(--line)] px-2.5 py-1 text-xs font-medium text-[var(--green)]">

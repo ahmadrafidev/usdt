@@ -18,9 +18,9 @@ export type SceneId =
   | "pieces";
 
 export const sideLabel: Record<ChapterSide, string> = {
-  record: "You can look this up",
-  tether: "Comes from Tether",
-  both: "Both",
+  record: "On the public blockchain",
+  tether: "In Tether’s reports",
+  both: "Blockchain and Tether’s reports",
 };
 
 export type SourceLink = {
@@ -280,14 +280,20 @@ export const chapters: Chapter[] = [
     scene: "reserves",
     side: "tether",
     paragraphs: [
-      "The token is not a claim on a specific dollar bill. Tether says the company holds a pool of assets, the reserves, equal to the value of the tokens in circulation.",
-      `Its transparency page, using the reserves report of ${reserves.asOf}, lists ${billions(reserves.assets)} of assets against ${billions(reserves.liabilities)} of liabilities. The difference, which it calls net equity, was ${billions(reserves.equity)}. The issuer named there is Tether International, S.A. de C.V.`,
-      "Those assets are not cash alone. Tether says they include cash equivalents, other assets, loans it is owed, bitcoin, and gold. It says it holds bitcoin and gold as a hedge against inflation, and that bitcoin’s dollar price can move a lot after the report.",
+      "USDT is not a claim on one particular dollar bill with your name on it. Tether says the company that issues the token holds a pool of assets, the reserves, worth at least as much as the tokens people are holding.",
+      `On its transparency page, taken from the reserves report of ${reserves.asOf}, that pool is ${billions(reserves.assets)} of assets against ${billions(reserves.liabilities)} of liabilities. Assets minus liabilities, which Tether calls net equity, was ${billions(reserves.equity)}. That gap is the cushion if some of the assets fall in price. The company named as the issuer is Tether International, S.A. de C.V.`,
+      "Tether says the pool includes ordinary currency, cash equivalents, other assets, and loans it has made to other parties. It also holds bitcoin and gold. Tether says those two are there as a hedge against inflation, and it warns that bitcoin’s dollar price can move sharply after the report date. The net-equity cushion is what it points to when that happens.",
+      "The wider Tether group owns more than this pool. Tether says Tether Investments and other entities keep corporate money that is left out of the reserves and left out of the asset total above. Some of those entities trade cryptocurrency, including USD₮. That trading is not the backing for the token.",
+      "Tether chooses the mix, and it can change the mix. A holder does not pick the assets and does not own a slice of them. Someone who is allowed to cash out is owed the face value of the token, minus fees, not a share of whatever the pool is worth that day.",
     ],
     glossary: [
       {
         term: "Reserves",
-        body: "The pool of assets Tether says backs tokens in circulation. Tether, not the token holder, chooses what sits in that pool.",
+        body: "The pool of assets Tether says stands behind tokens in circulation. Tether decides what goes in the pool. Holders do not.",
+      },
+      {
+        term: "Net equity",
+        body: "Assets minus liabilities in the reserves report. Tether treats the extra as a cushion, including against bitcoin’s price swings. It is not money paid to people holding USDT.",
       },
     ],
     sources: [transparency, faqs, terms],

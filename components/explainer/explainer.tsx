@@ -78,7 +78,7 @@ export function Explainer({ chapters }: ExplainerProps) {
       />
 
       <div className="lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div className="sticky top-14 z-20 h-[42vh] border-b border-[var(--line)] bg-[var(--paper)] lg:top-16 lg:h-[calc(100vh-4rem)] lg:border-r lg:border-b-0">
+        <div className="sticky top-28 z-20 h-[42vh] border-b border-[var(--line)] bg-[var(--paper)] lg:h-[calc(100vh-7rem)] lg:border-r lg:border-b-0">
           <Coin
             scene={chapters[active].scene}
             previous={chapters[Math.max(0, active - 1)].scene}
@@ -100,9 +100,23 @@ export function Explainer({ chapters }: ExplainerProps) {
               onFilter={setFilter}
             />
           ))}
-          <footer className="px-5 pb-16 text-sm leading-6 text-[var(--muted)] sm:px-10 lg:px-14">
-            Not affiliated with Tether. Figures are taken from Tether’s public pages and can change. The
-            Ethereum contract’s decimal count was read from the contract Tether publishes.
+          <footer className="space-y-2 px-5 pb-16 text-sm leading-6 text-[var(--muted)] sm:px-10 lg:px-14">
+            <p>
+              Not affiliated with Tether. Figures are taken from Tether’s public pages and can change. The
+              Ethereum contract’s decimal count was read from the contract Tether publishes.
+            </p>
+            <p>
+              Built by{" "}
+              <a
+                href="https://x.com/rafiiwirana"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-[var(--line)] underline-offset-4 hover:text-[var(--green)]"
+              >
+                @rafiiwirana
+              </a>
+              .
+            </p>
           </footer>
         </div>
       </div>
