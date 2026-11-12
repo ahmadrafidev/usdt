@@ -8,7 +8,7 @@ type SiteHeaderProps = {
 export function SiteHeader({ title, labels, active, onJump }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--paper)]/95 px-4 py-3 backdrop-blur-sm sm:px-6">
-      <p className="text-center font-[family-name:var(--font-hand)] text-4xl leading-none text-[var(--ink)]">
+      <p className="text-center font-[family-name:var(--font-hand)] text-3xl md:text-5xl leading-none text-[var(--ink)]">
         {title}
       </p>
       <div className="mt-3 flex items-center gap-3">
