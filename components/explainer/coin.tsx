@@ -119,11 +119,11 @@ function layout(scene: SceneId): Record<LayerId, Xform> {
   }
 
   if (scene === "reserves") {
-    return { ...blank, coin: at(320, 145, 0.4), reserves: reserveCard };
+    return { ...blank, reserves: at(320, 340, 0.92) };
   }
 
   if (scene === "yield") {
-    return { ...blank, coin: at(210, 330, 0.72), yield: yieldMark };
+    return { ...blank, yield: at(320, 340, 1) };
   }
 
   if (scene === "peg") {
@@ -144,7 +144,7 @@ function layout(scene: SceneId): Record<LayerId, Xform> {
     contract: at(165, 325, 0.64),
     chains: at(470, 320, 0.58),
     mint: hidden(mint),
-    reserves: at(165, 520, 0.48),
+    reserves: at(175, 500, 0.32),
     yield: hidden(yieldMark),
     peg: hidden(peg),
     freeze: hidden(freeze),
@@ -377,6 +377,108 @@ function ChainBars() {
   );
 }
 
+const POOL = ["Currency", "Cash equivalents", "Other assets", "Loans Tether is owed", "Bitcoin", "Gold"];
+
+function ReserveBoard() {
+  return (
+    <g fontFamily="var(--font-geist-sans), sans-serif">
+      <text x="0" y="-268" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="32">
+        {reserves.asOf}
+      </text>
+      <text x="0" y="-236" fill="#5c675f" textAnchor="middle" fontSize="13">
+        Tether International, S.A. de C.V.
+      </text>
+
+      {(
+        [
+          ["Assets", billions(reserves.assets), INK],
+          ["Liabilities", billions(reserves.liabilities), INK],
+          ["Net equity, the cushion", billions(reserves.equity), GREEN],
+        ] as const
+      ).map(([label, value, color], index) => (
+        <g key={label} transform={`translate(-230 ${-200 + index * 78})`}>
+          <rect width="210" height="68" rx="14" fill="#fffdf8" stroke="#d7d1c7" />
+          <text x="16" y="26" fill="#5c675f" fontSize="13">
+            {label}
+          </text>
+          <text x="16" y="50" fill={color} fontSize="18">
+            {value}
+          </text>
+        </g>
+      ))}
+
+      <text x="10" y="-176" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="26">
+        In the pool
+      </text>
+      {POOL.map((item, index) => (
+        <g key={item} transform={`translate(10 ${-142 + index * 36})`}>
+          <circle cx="8" cy="-5" r="5" fill={GREEN} />
+          <text x="24" y="0" fill={INK} fontSize="15">
+            {item}
+          </text>
+        </g>
+      ))}
+
+      <rect x="-230" y="48" width="460" height="86" rx="14" fill="#fff7ef" stroke="#e4c8a8" />
+      <text x="-210" y="78" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="22">
+        Left out of this total
+      </text>
+      <text x="-210" y="106" fill="#5c675f" fontSize="14">
+        Tether Investments and other corporate money
+      </text>
+      <text x="0" y="170" fill="#5c675f" textAnchor="middle" fontSize="14">
+        A holder does not own a slice. Cash-out is face value, minus fees.
+      </text>
+    </g>
+  );
+}
+
+function InterestSplit() {
+  return (
+    <g fontFamily="var(--font-geist-sans), sans-serif">
+      <rect x="-270" y="-150" width="230" height="250" rx="18" fill="#fffdf8" stroke="#d7d1c7" />
+      <circle cx="-155" cy="-78" r="36" fill={PAPER} stroke={INK} strokeWidth="2.5" />
+      <text x="-155" y="-68" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="28">
+        T
+      </text>
+      <text x="-155" y="-18" fill={INK} textAnchor="middle" fontSize="15">
+        You hold USDT
+      </text>
+      <text x="-155" y="28" fill={GREEN} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="40">
+        $1
+      </text>
+      <text x="-155" y="58" fill="#5c675f" textAnchor="middle" fontSize="14">
+        face value, minus fees
+      </text>
+
+      <path
+        d="M -28 -20 H 28"
+        fill="none"
+        stroke={GREEN}
+        strokeWidth="2.5"
+        markerEnd="url(#arrow)"
+      />
+      <text x="0" y="-32" fill={GREEN} textAnchor="middle" fontSize="12">
+        the return
+      </text>
+
+      <rect x="40" y="-150" width="230" height="250" rx="18" fill="#eef7f3" stroke={GREEN} />
+      <text x="155" y="-78" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="30">
+        Tether keeps it
+      </text>
+      <text x="155" y="-28" fill="#5c675f" textAnchor="middle" fontSize="15">
+        Interest on the reserves
+      </text>
+      <text x="155" y="4" fill="#5c675f" textAnchor="middle" fontSize="15">
+        is not paid to holders.
+      </text>
+      <text x="0" y="150" fill="#5c675f" textAnchor="middle" fontSize="14">
+        Holding USDT is not a savings account.
+      </text>
+    </g>
+  );
+}
+
 export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) {
   const pose = applyFilter(blendScenes(scene, previous, reduced ? 1 : progress), filter);
 
@@ -454,37 +556,11 @@ export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) 
       </Layer>
 
       <Layer id="reserves" pose={pose.reserves}>
-        <g fontFamily="var(--font-geist-sans), sans-serif">
-          <text x="-180" y="-90" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="30">
-            30 Sept 2026
-          </text>
-          {[
-            ["Assets", billions(reserves.assets)],
-            ["Liabilities", billions(reserves.liabilities)],
-            ["Net equity", billions(reserves.equity)],
-          ].map(([label, value], index) => (
-            <g key={label} transform={`translate(0 ${index * 70})`}>
-              <text x="-180" y="0" fill="#5c675f" fontSize="16">
-                {label}
-              </text>
-              <text x="-180" y="32" fill={index === 2 ? GREEN : INK} fontSize="28">
-                {value}
-              </text>
-            </g>
-          ))}
-        </g>
+        <ReserveBoard />
       </Layer>
 
       <Layer id="yield" pose={pose.yield}>
-        <g>
-          <path d="M -40 0 H 90" fill="none" stroke={GREEN} strokeWidth="2.5" markerEnd="url(#arrow)" />
-          <text x="100" y="-8" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="28">
-            stays with Tether
-          </text>
-          <text x="-40" y="48" fill="#5c675f" fontSize="16" fontFamily="var(--font-geist-sans), sans-serif">
-            holder is paid face value, less fees
-          </text>
-        </g>
+        <InterestSplit />
       </Layer>
 
       <Layer id="peg" pose={pose.peg}>

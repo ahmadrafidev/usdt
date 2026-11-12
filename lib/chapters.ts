@@ -1,4 +1,4 @@
-import { billions, chainRemainder, circulation, ethereumUsdt, reserves } from "@/lib/facts";
+import { billions, chainRemainder, circulation, ethereumUsdt } from "@/lib/facts";
 
 export type PieceFilter = "all" | "record" | "tether";
 
@@ -280,11 +280,7 @@ export const chapters: Chapter[] = [
     scene: "reserves",
     side: "tether",
     paragraphs: [
-      "USDT is not a claim on one particular dollar bill with your name on it. Tether says the company that issues the token holds a pool of assets, the reserves, worth at least as much as the tokens people are holding.",
-      `On its transparency page, taken from the reserves report of ${reserves.asOf}, that pool is ${billions(reserves.assets)} of assets against ${billions(reserves.liabilities)} of liabilities. Assets minus liabilities, which Tether calls net equity, was ${billions(reserves.equity)}. That gap is the cushion if some of the assets fall in price. The company named as the issuer is Tether International, S.A. de C.V.`,
-      "Tether says the pool includes ordinary currency, cash equivalents, other assets, and loans it has made to other parties. It also holds bitcoin and gold. Tether says those two are there as a hedge against inflation, and it warns that bitcoin’s dollar price can move sharply after the report date. The net-equity cushion is what it points to when that happens.",
-      "The wider Tether group owns more than this pool. Tether says Tether Investments and other entities keep corporate money that is left out of the reserves and left out of the asset total above. Some of those entities trade cryptocurrency, including USD₮. That trading is not the backing for the token.",
-      "Tether chooses the mix, and it can change the mix. A holder does not pick the assets and does not own a slice of them. Someone who is allowed to cash out is owed the face value of the token, minus fees, not a share of whatever the pool is worth that day.",
+      "USDT is not a claim on a dollar bill with your name on it. The breakdown on the left is Tether’s own reserves report. Tether chooses what sits in that pool, and a holder does not own a slice of it.",
     ],
     glossary: [
       {

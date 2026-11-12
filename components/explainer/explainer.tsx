@@ -78,7 +78,7 @@ export function Explainer({ chapters }: ExplainerProps) {
       />
 
       <div className="lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div className="sticky top-28 z-20 h-[42vh] border-b border-[var(--line)] bg-[var(--paper)] lg:h-[calc(100vh-7rem)] lg:border-r lg:border-b-0">
+        <div className="sticky top-40 z-20 h-[36vh] border-b border-[var(--line)] bg-[var(--paper)] lg:h-[calc(100vh-10rem)] lg:border-r lg:border-b-0">
           <Coin
             scene={chapters[active].scene}
             previous={chapters[Math.max(0, active - 1)].scene}

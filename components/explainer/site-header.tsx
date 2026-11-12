@@ -8,14 +8,19 @@ type SiteHeaderProps = {
 export function SiteHeader({ title, labels, active, onJump }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--paper)]/95 px-4 py-3 backdrop-blur-sm sm:px-6">
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="font-[family-name:var(--font-hand)] text-3xl leading-none text-[var(--ink)]">{title}</p>
-        <p className="shrink-0 text-sm tabular-nums text-[var(--muted)]">
-          {active + 1} of {labels.length}
+      <p className="text-center font-[family-name:var(--font-hand)] text-4xl leading-none text-[var(--ink)]">
+        {title}
+      </p>
+      <div className="mt-3 flex items-center gap-3">
+        <p className="grid size-14 shrink-0 place-items-center rounded-2xl border-2 border-[var(--green)] font-[family-name:var(--font-hand)] text-3xl leading-none text-[var(--green)]">
+          {active + 1}
         </p>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs tracking-wide text-[var(--muted)]">of {labels.length}</p>
+          <p className="truncate text-base text-[var(--ink)]">{labels[active]}</p>
+        </div>
       </div>
-      <p className="mt-2 truncate text-sm text-[var(--ink)]">{labels[active]}</p>
-      <nav aria-label="Jump to a step" className="mt-2 flex h-1.5 gap-0.5">
+      <nav aria-label="Jump to a step" className="mt-3 flex h-1.5 gap-0.5">
         {labels.map((label, index) => {
           const reached = index <= active;
           return (
