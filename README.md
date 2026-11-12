@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+<img src="./public/logo.svg" alt="USDT coin" width="140" style="display: block; margin-left: auto; margin-right: auto;" />
 
-First, run the development server:
+# What is USDT?
+
+</div>
+
+A scroll-through explainer of USDT. Each chapter pairs a drawing of the token with plain-language copy taken from Tether’s terms, fee schedule, FAQ, and transparency page.
+
+The site is not affiliated with Tether. Figures are copied from Tether’s public pages and can change. The Ethereum contract’s decimal count was read from the contract Tether publishes.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Script | What it does |
+| --- | --- |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Production build |
+| `pnpm start` | Serve the production build |
+| `pnpm lint` | Run ESLint |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The package manager is [pnpm](https://pnpm.io) 12.
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+- [`lib/chapters.ts`](lib/chapters.ts) — chapter copy, glossary entries, and source links
+- [`lib/facts.ts`](lib/facts.ts) — circulation, reserves, fees, and the Ethereum contract address, copied from Tether’s pages
+- [`components/explainer/`](components/explainer/) — scroll layout, chapter navigation, text, and the coin drawing
+- [`app/page.tsx`](app/page.tsx) — the single page, which renders the explainer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+When Tether’s published numbers change, update `lib/facts.ts`. The dates in that file are the dates of the source pages.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Stack
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Next.js](https://nextjs.org) 16, React 19, TypeScript, and Tailwind CSS 4.
