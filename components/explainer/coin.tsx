@@ -228,10 +228,26 @@ function CoinFace() {
         stroke={INK}
         strokeWidth="3"
       />
-      <path id="coin-ring" d="M0,-104 A104,104 0 1,1 -0.1,-104" fill="none" />
-      <text fill={INK} fontSize="11" fontFamily="var(--font-geist-sans), sans-serif" letterSpacing="1.5">
-        <textPath href="#coin-ring">
-          USD₮ · ONE DOLLAR · ONE TOKEN · USD₮ · ONE DOLLAR · ONE TOKEN ·
+      <path id="coin-arc-top" d="M -84,-54 A 100,100 0 0,1 84,-54" fill="none" />
+      <path id="coin-arc-bottom" d="M -84,54 A 100,100 0 0,0 84,54" fill="none" />
+      <text
+        fill={INK}
+        fontSize="13"
+        fontFamily="var(--font-geist-sans), sans-serif"
+        letterSpacing="1.6"
+      >
+        <textPath href="#coin-arc-top" startOffset="50%" textAnchor="middle">
+          USD₮ · ONE DOLLAR
+        </textPath>
+      </text>
+      <text
+        fill={INK}
+        fontSize="13"
+        fontFamily="var(--font-geist-sans), sans-serif"
+        letterSpacing="2.4"
+      >
+        <textPath href="#coin-arc-bottom" startOffset="50%" textAnchor="middle">
+          ONE TOKEN
         </textPath>
       </text>
     </g>

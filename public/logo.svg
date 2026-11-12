@@ -75,4 +75,12 @@
   <circle r="116" fill="url(#hatch)"/>
   <path d="M -48 -46 H 48 V -24 H 16 V 54 H -16 V -24 H -48 Z" fill="#f6f4ef" stroke="#24312c" stroke-width="3.5" stroke-linejoin="round"/>
   <ellipse cx="0" cy="6" rx="62" ry="16" stroke="#24312c" stroke-width="3"/>
+  <path id="coin-arc-top" d="M -84,-54 A 100,100 0 0,1 84,-54" fill="none"/>
+  <path id="coin-arc-bottom" d="M -84,54 A 100,100 0 0,0 84,54" fill="none"/>
+  <text fill="#24312c" font-size="13" font-family="ui-sans-serif, system-ui, sans-serif" letter-spacing="1.6">
+    <textPath href="#coin-arc-top" startOffset="50%" text-anchor="middle">USD₮ · ONE DOLLAR</textPath>
+  </text>
+  <text fill="#24312c" font-size="13" font-family="ui-sans-serif, system-ui, sans-serif" letter-spacing="2.4">
+    <textPath href="#coin-arc-bottom" startOffset="50%" text-anchor="middle">ONE TOKEN</textPath>
+  </text>
 </svg>
