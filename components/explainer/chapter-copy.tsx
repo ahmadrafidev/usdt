@@ -102,6 +102,21 @@ export function ChapterCopy({ chapter, index, filter, onFilter, toy, onToy, ref 
         </p>
       ) : null}
       {chapter.id === "close" ? (
+        <div className="mt-10 max-w-md">
+          <p className="font-[family-name:var(--font-hand)] text-xl text-[var(--green)] sm:text-3xl">
+            Want to learn more about USDC?
+          </p>
+          <a
+            href="https://whatisusdc.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex w-fit rounded-full bg-[var(--green)] px-4 py-2 text-sm text-[var(--on-green)]"
+          >
+            See how USDC works
+          </a>
+        </div>
+      ) : null}
+      {chapter.id === "close" ? (
         <footer className="mt-10 max-w-md space-y-2 border-t border-[var(--line)] pt-6 text-sm leading-6 text-[var(--muted)]">
           <p>
             Not affiliated with Tether. Data sourced from public records and may change.
