@@ -53,6 +53,8 @@ export function Explainer({ chapters }: ExplainerProps) {
           nextIndex = index;
           const traveled = probe - rect.top;
           nextProgress = Math.min(1, Math.max(0, traveled / (window.innerHeight * 0.32)));
+          const isLast = index === sections.current.length - 1;
+          if (isLast && rect.bottom <= window.innerHeight + 2) nextProgress = 1;
         }
       });
 
@@ -116,24 +118,6 @@ export function Explainer({ chapters }: ExplainerProps) {
               onFilter={setFilter}
             />
           ))}
-          <footer className="space-y-2 px-5 pb-16 text-sm leading-6 text-[var(--muted)] sm:px-10 lg:px-14">
-            <p>
-              Not affiliated with Tether. Figures are taken from Tether’s public pages and can change. The
-              Ethereum contract’s decimal count was read from the contract Tether publishes.
-            </p>
-            <p>
-              Built by{" "}
-              <a
-                href="https://x.com/rafiiwirana"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-[var(--line)] underline-offset-4 hover:text-[var(--green)]"
-              >
-                @rafiiwirana
-              </a>
-              .
-            </p>
-          </footer>
         </div>
       </div>
     </div>

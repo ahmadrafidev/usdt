@@ -22,7 +22,11 @@ export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCo
     <section
       ref={ref}
       id={chapter.id}
-      className="flex min-h-[calc(64vh-var(--header-h))] scroll-mt-[calc(36vh+var(--header-h))] flex-col justify-center px-5 py-10 sm:px-10 lg:min-h-[calc(100vh-var(--header-h))] lg:scroll-mt-[var(--header-h)] lg:px-14"
+      className={
+        chapter.id === "close"
+          ? "flex min-h-[calc(100vh-var(--header-h))] scroll-mt-[calc(36vh+var(--header-h))] flex-col justify-start px-5 pt-[calc(36vh+1.25rem)] pb-12 sm:px-10 lg:justify-center lg:scroll-mt-[var(--header-h)] lg:px-14 lg:py-10"
+          : "flex min-h-[calc(64vh-var(--header-h))] scroll-mt-[calc(36vh+var(--header-h))] flex-col justify-center px-5 py-10 sm:px-10 lg:min-h-[calc(100vh-var(--header-h))] lg:scroll-mt-[var(--header-h)] lg:px-14"
+      }
     >
       {chapter.side ? (
         <p className="mb-4 w-fit rounded-full border border-[var(--line)] px-2.5 py-1 text-xs font-medium text-[var(--green)]">
@@ -75,22 +79,43 @@ export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCo
           </div>
         </div>
       ) : null}
-      <p className="mt-8 max-w-md text-sm leading-6 text-[var(--muted)]">
-        {chapter.sources.map((source, sourceIndex) => (
-          <span key={source.href}>
-            {sourceIndex === 0 ? "Source: " : ""}
+      {chapter.sources.length > 0 ? (
+        <p className="mt-8 max-w-md text-sm leading-6 text-[var(--muted)]">
+          {chapter.sources.map((source, sourceIndex) => (
+            <span key={source.href}>
+              {sourceIndex === 0 ? "Source: " : ""}
+              <a
+                href={source.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-[var(--line)] underline-offset-4 hover:text-[var(--green)]"
+              >
+                {source.label}
+              </a>
+              {sourceIndex < chapter.sources.length - 1 ? " · " : ""}
+            </span>
+          ))}
+        </p>
+      ) : null}
+      {chapter.id === "close" ? (
+        <footer className="mt-10 max-w-md space-y-2 border-t border-[var(--line)] pt-6 text-sm leading-6 text-[var(--muted)]">
+          <p>
+            Not affiliated with Tether. Data sourced from public records and may change.
+          </p>
+          <p>
+            Built by{" "}
             <a
-              href={source.href}
+              href="https://x.com/rafiiwirana"
               target="_blank"
               rel="noopener noreferrer"
               className="underline decoration-[var(--line)] underline-offset-4 hover:text-[var(--green)]"
             >
-              {source.label}
+              @rafiiwirana
             </a>
-            {sourceIndex < chapter.sources.length - 1 ? " · " : ""}
-          </span>
-        ))}
-      </p>
+            .
+          </p>
+        </footer>
+      ) : null}
     </section>
   );
 }

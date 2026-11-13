@@ -408,4 +408,16 @@ export const chapters: Chapter[] = [
     glossary: [],
     sources: [transparency, terms, protocols],
   },
+  {
+    id: "close",
+    title: "Now follow the money",
+    scene: "intro",
+    side: null,
+    paragraphs: [
+      "You have seen how USDT is created, how it moves, and what stands behind it. But USDT is only one piece of a much larger financial system.",
+      "The next chapter is about more than stablecoins. It is about who gets to issue money, move it, and build the infrastructure around it"
+    ],
+    glossary: [],
+    sources: [],
+  },
 ];
