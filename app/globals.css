@@ -8,6 +8,13 @@
   --green: #0e8f6e;
   --background: var(--paper);
   --foreground: var(--ink);
+  --header-h: 8.8125rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-h: 9.9375rem;
+  }
 }
 
 @theme inline {

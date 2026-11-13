@@ -1,13 +1,19 @@
+import type { Ref } from "react";
+
 type SiteHeaderProps = {
   title: string;
   labels: string[];
   active: number;
   onJump: (index: number) => void;
+  ref?: Ref<HTMLElement>;
 };
 
-export function SiteHeader({ title, labels, active, onJump }: SiteHeaderProps) {
+export function SiteHeader({ title, labels, active, onJump, ref }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--paper)]/95 px-4 py-3 backdrop-blur-sm sm:px-6">
+    <header
+      ref={ref}
+      className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--paper)]/95 px-4 py-3 backdrop-blur-sm sm:px-6"
+    >
       <p className="text-center font-[family-name:var(--font-hand)] text-3xl md:text-5xl leading-none text-[var(--ink)]">
         {title}
       </p>

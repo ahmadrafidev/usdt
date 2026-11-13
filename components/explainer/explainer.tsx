@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Chapter, PieceFilter } from "@/lib/chapters";
 import { ChapterCopy } from "@/components/explainer/chapter-copy";
 import { Coin } from "@/components/explainer/coin";
@@ -16,6 +16,21 @@ export function Explainer({ chapters }: ExplainerProps) {
   const [filter, setFilter] = useState<PieceFilter>("all");
   const [reduced, setReduced] = useState(false);
   const sections = useRef<(HTMLElement | null)[]>([]);
+  const headerRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const syncHeaderHeight = () => {
+      document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    };
+
+    syncHeaderHeight();
+    const observer = new ResizeObserver(syncHeaderHeight);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -71,6 +86,7 @@ export function Explainer({ chapters }: ExplainerProps) {
       </div>
 
       <SiteHeader
+        ref={headerRef}
         title="What is USDT?"
         labels={chapters.map((chapter) => chapter.title)}
         active={active}
@@ -78,7 +94,7 @@ export function Explainer({ chapters }: ExplainerProps) {
       />
 
       <div className="lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <div className="sticky top-40 z-20 h-[36vh] border-b border-[var(--line)] bg-[var(--paper)] lg:h-[calc(100vh-10rem)] lg:border-r lg:border-b-0">
+        <div className="sticky top-[var(--header-h)] z-20 h-[36vh] border-b border-[var(--line)] bg-[var(--paper)] lg:h-[calc(100vh-var(--header-h))] lg:border-r lg:border-b-0">
           <Coin
             scene={chapters[active].scene}
             previous={chapters[Math.max(0, active - 1)].scene}
