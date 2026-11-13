@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type Ref } from "react";
-import { sideLabel, type Chapter, type PieceFilter } from "@/lib/chapters";
+import { sideLabel, type Chapter, type PieceFilter, type ToyState } from "@/lib/chapters";
+import { billions, poolShare, reservePool } from "@/lib/facts";
 
 const filters: { id: PieceFilter; label: string }[] = [
   { id: "all", label: "All" },
@@ -14,10 +15,12 @@ type ChapterCopyProps = {
   index: number;
   filter: PieceFilter;
   onFilter: (filter: PieceFilter) => void;
+  toy: ToyState;
+  onToy: (patch: Partial<ToyState>) => void;
   ref?: Ref<HTMLElement>;
 };
 
-export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCopyProps) {
+export function ChapterCopy({ chapter, index, filter, onFilter, toy, onToy, ref }: ChapterCopyProps) {
   return (
     <section
       ref={ref}
@@ -59,6 +62,7 @@ export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCo
           ))}
         </div>
       ) : null}
+      {chapter.toy === "reserve-slices" ? <ReserveSlices toy={toy} onToy={onToy} /> : null}
       {chapter.showFilter ? (
         <div className="mt-8" role="group" aria-label="Filter the pieces">
           <div className="flex w-fit rounded-full border border-[var(--line)] p-1">
@@ -117,6 +121,35 @@ export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCo
         </footer>
       ) : null}
     </section>
+  );
+}
+
+function ReserveSlices({ toy, onToy }: { toy: ToyState; onToy: (patch: Partial<ToyState>) => void }) {
+  const slice = reservePool[toy.selectedPoolIndex];
+
+  return (
+    <div className="mt-8 max-w-md">
+      <p className="mb-3 text-sm text-[var(--muted)]">Tap a slice of the pool</p>
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Reserve pool">
+        {reservePool.map((item, index) => {
+          const selected = index === toy.selectedPoolIndex;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => onToy({ selectedPoolIndex: index })}
+              className={`rounded-full px-3 py-1.5 text-sm ${selected ? "bg-[var(--green)] text-[var(--on-green)]" : "border border-[var(--line)] text-[var(--ink)]"}`}
+            >
+              {item.short}
+            </button>
+          );
+        })}
+      </div>
+      <p className="mt-3 text-sm leading-6 text-[var(--muted)]" aria-live="polite">
+        {poolShare(slice.amount)} of the pool is {slice.label.toLowerCase()}, {billions(slice.amount)}. A holder does not own a slice.
+      </p>
+    </div>
   );
 }
 

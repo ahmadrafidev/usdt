@@ -16,6 +16,23 @@ export const reserves = {
   href: "https://tether.to/transparency/?tab=usdt",
 } as const;
 
+/** Asset lines from the 30 September 2026 reserves report, largest first. They sum to reserves.assets. */
+export const reservePool = [
+  { id: "cash", label: "Cash and cash equivalents", short: "Cash equivalents", amount: 139_578_392_166 },
+  { id: "gold", label: "Precious metals", short: "Gold", amount: 19_084_651_736 },
+  { id: "loans", label: "Secured loans", short: "Secured loans", amount: 14_175_117_624 },
+  { id: "bitcoin", label: "Bitcoin", short: "Bitcoin", amount: 8_367_170_264 },
+  { id: "other", label: "Other investments", short: "Other investments", amount: 6_004_074_506 },
+  { id: "equities", label: "Public equities", short: "Public equities", amount: 4_177_803_686 },
+  { id: "bonds", label: "Corporate bonds", short: "Corporate bonds", amount: 63_881_392 },
+] as const;
+
+export function poolShare(amount: number): string {
+  const percent = (amount / reserves.assets) * 100;
+  const digits = percent < 0.1 ? 2 : 1;
+  return `${percent.toFixed(digits)}%`;
+}
+
 export const ethereumUsdt = {
   address: "0xdAC17F958D2ee523a2206206994597c13d831ec7",
   decimals: 6,

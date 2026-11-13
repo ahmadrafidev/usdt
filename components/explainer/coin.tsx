@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { PieceFilter, SceneId } from "@/lib/chapters";
-import { billions, chainRemainder, circulation, reserves } from "@/lib/facts";
+import type { PieceFilter, SceneId, ToyState } from "@/lib/chapters";
+import { billions, chainRemainder, circulation, poolShare, reservePool, reserves } from "@/lib/facts";
 
 type LayerId =
   | "coin"
@@ -59,6 +59,7 @@ type CoinProps = {
   previous: SceneId;
   progress: number;
   filter: PieceFilter;
+  toy: ToyState;
   reduced: boolean;
 };
 
@@ -394,15 +395,50 @@ function ChainBars() {
   );
 }
 
-const POOL = ["Currency", "Cash equivalents", "Other assets", "Loans Tether is owed", "Bitcoin", "Gold"];
+const SLICE_FILL = [
+  "var(--slice-0)",
+  "var(--slice-1)",
+  "var(--slice-2)",
+  "var(--slice-3)",
+  "var(--slice-4)",
+  "var(--slice-5)",
+  "var(--slice-6)",
+] as const;
 
-function ReserveBoard() {
+function donutSlice(outer: number, inner: number, start: number, end: number) {
+  const large = end - start > Math.PI ? 1 : 0;
+  const round = (value: number) => Math.round(value * 100) / 100;
+  const ox1 = round(Math.cos(start) * outer);
+  const oy1 = round(Math.sin(start) * outer);
+  const ox2 = round(Math.cos(end) * outer);
+  const oy2 = round(Math.sin(end) * outer);
+  const ix1 = round(Math.cos(end) * inner);
+  const iy1 = round(Math.sin(end) * inner);
+  const ix2 = round(Math.cos(start) * inner);
+  const iy2 = round(Math.sin(start) * inner);
+  return `M ${ox1} ${oy1} A ${outer} ${outer} 0 ${large} 1 ${ox2} ${oy2} L ${ix1} ${iy1} A ${inner} ${inner} 0 ${large} 0 ${ix2} ${iy2} Z`;
+}
+
+function ReserveBoard({ selectedPoolIndex }: { selectedPoolIndex: number }) {
+  const selected = reservePool[selectedPoolIndex];
+  const outer = 112;
+  const inner = 64;
+  let angle = -Math.PI / 2;
+  const slices = reservePool.map((item) => {
+    const sweep = (item.amount / reserves.assets) * Math.PI * 2;
+    const start = angle;
+    const end = angle + sweep;
+    const mid = start + sweep / 2;
+    angle = end;
+    return { start, end, mid };
+  });
+
   return (
     <g fontFamily="var(--font-geist-sans), sans-serif">
-      <text x="0" y="-268" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="32">
+      <text x="0" y="-292" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="32">
         {reserves.asOf}
       </text>
-      <text x="0" y="-236" fill={MUTED} textAnchor="middle" fontSize="13">
+      <text x="0" y="-260" fill={MUTED} textAnchor="middle" fontSize="13">
         Tether International, S.A. de C.V.
       </text>
 
@@ -410,41 +446,65 @@ function ReserveBoard() {
         [
           ["Assets", billions(reserves.assets), INK],
           ["Liabilities", billions(reserves.liabilities), INK],
-          ["Net equity, the cushion", billions(reserves.equity), GREEN],
+          ["Net equity", billions(reserves.equity), GREEN],
         ] as const
       ).map(([label, value, color], index) => (
-        <g key={label} transform={`translate(-230 ${-200 + index * 78})`}>
-          <rect width="210" height="68" rx="14" fill="var(--card)" stroke="var(--line)" />
-          <text x="16" y="26" fill={MUTED} fontSize="13">
+        <g key={label} transform={`translate(${-240 + index * 160} -242)`}>
+          <rect width="148" height="52" rx="12" fill="var(--card)" stroke="var(--line)" />
+          <text x="14" y="20" fill={MUTED} fontSize="12">
             {label}
           </text>
-          <text x="16" y="50" fill={color} fontSize="18">
+          <text x="14" y="38" fill={color} fontSize="13">
             {value}
           </text>
         </g>
       ))}
 
-      <text x="10" y="-176" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="26">
-        In the pool
-      </text>
-      {POOL.map((item, index) => (
-        <g key={item} transform={`translate(10 ${-142 + index * 36})`}>
-          <circle cx="8" cy="-5" r="5" fill={GREEN} />
-          <text x="24" y="0" fill={INK} fontSize="15">
-            {item}
-          </text>
-        </g>
-      ))}
+      <g transform="translate(0 18)">
+        {slices.map((slice, index) => {
+          const isSelected = index === selectedPoolIndex;
+          const explode = isSelected ? 10 : 0;
+          const dx = Math.cos(slice.mid) * explode;
+          const dy = Math.sin(slice.mid) * explode;
+          return (
+            <path
+              key={reservePool[index].id}
+              d={donutSlice(outer, inner, slice.start, slice.end)}
+              transform={`translate(${dx} ${dy})`}
+              fill={SLICE_FILL[index]}
+              stroke={INK}
+              strokeWidth={isSelected ? 3 : 1.6}
+            />
+          );
+        })}
+        <text x="0" y="-6" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="32">
+          {poolShare(selected.amount)}
+        </text>
+        <text x="0" y="16" fill={MUTED} textAnchor="middle" fontSize="13">
+          of the pool
+        </text>
+      </g>
 
-      <rect x="-230" y="48" width="460" height="86" rx="14" fill="var(--note)" stroke="var(--note-line)" />
-      <text x="-210" y="78" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="22">
-        Left out of this total
+      <g transform="translate(0 208)">
+        {reservePool.map((item, index) => {
+          const column = index % 2;
+          const row = Math.floor(index / 2);
+          return (
+            <g key={item.id} transform={`translate(${column === 0 ? -158 : 32} ${row * 26})`}>
+              <rect x="0" y="-11" width="14" height="14" rx="3" fill={SLICE_FILL[index]} stroke={INK} strokeWidth="1.2" />
+              <text x="22" y="1" fill={index === selectedPoolIndex ? GREEN : INK} fontSize="14">
+                {item.short}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+
+      <text x="0" y="318" fill={MUTED} textAnchor="middle" fontSize="14">
+        {selected.label} · {billions(selected.amount)}. A holder does not own a slice.
       </text>
-      <text x="-210" y="106" fill={MUTED} fontSize="14">
-        Tether Investments and other corporate money
-      </text>
-      <text x="0" y="170" fill={MUTED} textAnchor="middle" fontSize="14">
-        A holder does not own a slice. Cash-out is face value, minus fees.
+      <text x="0" y="344" fill={MUTED} textAnchor="middle" fontSize="13">
+        Tether Investments and other corporate money are left out of this total.
       </text>
     </g>
   );
@@ -496,7 +556,7 @@ function InterestSplit() {
   );
 }
 
-export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) {
+export function Coin({ scene, previous, progress, filter, toy, reduced }: CoinProps) {
   const pose = applyFilter(blendScenes(scene, previous, reduced ? 1 : progress), filter);
 
   return (
@@ -573,7 +633,7 @@ export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) 
       </Layer>
 
       <Layer id="reserves" pose={pose.reserves}>
-        <ReserveBoard />
+        <ReserveBoard selectedPoolIndex={toy.selectedPoolIndex} />
       </Layer>
 
       <Layer id="yield" pose={pose.yield}>

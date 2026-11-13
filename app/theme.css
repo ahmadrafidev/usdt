@@ -24,6 +24,13 @@
   --dash: #c9c2b6;
   --shade-start: #ffffff;
   --shade-end: #cfc6b8;
+  --slice-0: #0e8f6e;
+  --slice-1: #c6a15a;
+  --slice-2: #3d6f8f;
+  --slice-3: #d08a3a;
+  --slice-4: #8dceb8;
+  --slice-5: #5e675f;
+  --slice-6: #d7d1c7;
 }
 
 :root.dark {
@@ -52,6 +59,13 @@
   --dash: #5a635d;
   --shade-start: #ffffff;
   --shade-end: #0e1210;
+  --slice-0: #3dcaa0;
+  --slice-1: #e0c07a;
+  --slice-2: #7eb0d0;
+  --slice-3: #f0b56a;
+  --slice-4: #2f6d58;
+  --slice-5: #a3aba4;
+  --slice-6: #5a635d;
 }
 
 .theme-toggle-sun {

@@ -2,6 +2,16 @@ import { billions, chainRemainder, circulation, ethereumUsdt } from "@/lib/facts
 
 export type PieceFilter = "all" | "record" | "tether";
 
+export type ToyId = "reserve-slices";
+
+export type ToyState = {
+  selectedPoolIndex: number;
+};
+
+export const defaultToyState: ToyState = {
+  selectedPoolIndex: 0,
+};
+
 export type ChapterSide = "record" | "tether" | "both";
 
 export type SceneId =
@@ -39,6 +49,7 @@ export type Chapter = {
   scene: SceneId;
   side: ChapterSide | null;
   showFilter?: boolean;
+  toy?: ToyId;
   paragraphs: string[];
   glossary: GlossaryEntry[];
   sources: SourceLink[];
@@ -279,6 +290,7 @@ export const chapters: Chapter[] = [
     title: "What backs the tokens",
     scene: "reserves",
     side: "tether",
+    toy: "reserve-slices",
     paragraphs: [
       "USDT is not a claim on a dollar bill with your name on it. The breakdown on the left is Tether’s own reserves report. Tether chooses what sits in that pool, and a holder does not own a slice of it.",
     ],
