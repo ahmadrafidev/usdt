@@ -70,7 +70,7 @@ export function ChapterCopy({ chapter, index, filter, onFilter, ref }: ChapterCo
                   type="button"
                   aria-pressed={selected}
                   onClick={() => onFilter(item.id)}
-                  className={`rounded-full px-4 py-1.5 text-sm ${selected ? "bg-[var(--green)] text-white" : "text-[var(--ink)]"}`}
+                  className={`rounded-full px-4 py-1.5 text-sm ${selected ? "bg-[var(--green)] text-[var(--on-green)]" : "text-[var(--ink)]"}`}
                 >
                   {item.label}
                 </button>

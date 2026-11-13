@@ -1,0 +1,67 @@
+:root {
+  color-scheme: light;
+  --paper: #f6f4ef;
+  --ink: #1c2420;
+  --muted: #5e675f;
+  --line: #d7d1c7;
+  --green: #0e8f6e;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --on-green: #ffffff;
+  --draw: #24312c;
+  --draw-muted: #5c675f;
+  --coin-face: #d9f0e7;
+  --hatch: #8dceb8;
+  --ledger: #efeae2;
+  --highlight: #b7e4d2;
+  --burn: #f8d0cb;
+  --danger: #9f2d22;
+  --track: #e4efe9;
+  --card: #fffdf8;
+  --note: #fff7ef;
+  --note-line: #e4c8a8;
+  --keep: #eef7f3;
+  --dash: #c9c2b6;
+  --shade-start: #ffffff;
+  --shade-end: #cfc6b8;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --paper: #141916;
+  --ink: #ebe6dc;
+  --muted: #a3aba4;
+  --line: #303834;
+  --green: #3dcaa0;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --on-green: #10241c;
+  --draw: #ebe6dc;
+  --draw-muted: #a3aba4;
+  --coin-face: #1b3d33;
+  --hatch: #2f6d58;
+  --ledger: #222a26;
+  --highlight: #1e4a3c;
+  --burn: #4a2824;
+  --danger: #f0a59a;
+  --track: #24312c;
+  --card: #1c2320;
+  --note: #2a241c;
+  --note-line: #6d5640;
+  --keep: #163028;
+  --dash: #5a635d;
+  --shade-start: #ffffff;
+  --shade-end: #0e1210;
+}
+
+.theme-toggle-sun {
+  display: none;
+}
+
+:root.dark .theme-toggle-sun {
+  display: block;
+}
+
+:root.dark .theme-toggle-moon {
+  display: none;
+}

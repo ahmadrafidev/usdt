@@ -49,9 +49,10 @@ const LAYER_SIDE: Record<LayerId, "record" | "tether" | "both"> = {
   terms: "tether",
 };
 
-const INK = "#24312c";
-const GREEN = "#0e8f6e";
-const PAPER = "#f6f4ef";
+const INK = "var(--draw)";
+const GREEN = "var(--green)";
+const PAPER = "var(--paper)";
+const MUTED = "var(--draw-muted)";
 
 type CoinProps = {
   scene: SceneId;
@@ -210,7 +211,7 @@ function CoinFace() {
     <g>
       <circle r="138" fill={PAPER} stroke={INK} strokeWidth="3" />
       <Reed radius={132} />
-      <circle r="116" fill="#d9f0e7" stroke={INK} strokeWidth="2.5" />
+      <circle r="116" fill="var(--coin-face)" stroke={INK} strokeWidth="2.5" />
       <circle r="116" fill="url(#hatch)" />
       <path
         d="M -48 -46 H 48 V -24 H 16 V 54 H -16 V -24 H -48 Z"
@@ -265,7 +266,7 @@ function LedgerSheet({ mode }: { mode: "balance" | "mint" | "frozen" }) {
 
   return (
     <g>
-      <ellipse rx="168" ry="78" fill="#efeae2" stroke={INK} strokeWidth="2.5" />
+      <ellipse rx="168" ry="78" fill="var(--ledger)" stroke={INK} strokeWidth="2.5" />
       <ellipse rx="168" ry="78" fill="url(#ledger-shade)" />
       <text
         x="-146"
@@ -286,10 +287,10 @@ function LedgerSheet({ mode }: { mode: "balance" | "mint" | "frozen" }) {
         return (
           <g key={address}>
             {highlighted ? (
-              <rect x="-150" y={y - 13} width="300" height="18" rx="4" fill="#b7e4d2" />
+              <rect x="-150" y={y - 13} width="300" height="18" rx="4" fill="var(--highlight)" />
             ) : null}
             {burned ? (
-              <rect x="-150" y={y - 13} width="300" height="18" rx="4" fill="#f8d0cb" />
+              <rect x="-150" y={y - 13} width="300" height="18" rx="4" fill="var(--burn)" />
             ) : null}
             <text x="-142" y={y} fill={INK} fontSize="13" fontFamily="ui-monospace, monospace">
               {address}
@@ -297,7 +298,7 @@ function LedgerSheet({ mode }: { mode: "balance" | "mint" | "frozen" }) {
             <text
               x="142"
               y={y}
-              fill={burned ? "#9f2d22" : INK}
+              fill={burned ? "var(--danger)" : INK}
               fontSize="13"
               fontFamily="ui-monospace, monospace"
               textAnchor="end"
@@ -305,7 +306,7 @@ function LedgerSheet({ mode }: { mode: "balance" | "mint" | "frozen" }) {
               {amount}
             </text>
             {burned ? (
-              <line x1="-150" y1={y - 4} x2="150" y2={y - 4} stroke="#9f2d22" strokeWidth="1.6" />
+              <line x1="-150" y1={y - 4} x2="150" y2={y - 4} stroke="var(--danger)" strokeWidth="1.6" />
             ) : null}
             {mode === "frozen" && highlighted ? (
               <text x="86" y={y} fontSize="12">
@@ -332,7 +333,7 @@ function LedgerSheet({ mode }: { mode: "balance" | "mint" | "frozen" }) {
           <text x="-120" y="92" fill={GREEN}>
             new USD₮
           </text>
-          <text x="70" y="92" fill="#9f2d22">
+          <text x="70" y="92" fill="var(--danger)">
             pulled back
           </text>
         </g>
@@ -341,7 +342,7 @@ function LedgerSheet({ mode }: { mode: "balance" | "mint" | "frozen" }) {
         <text
           x="0"
           y="96"
-          fill="#9f2d22"
+          fill="var(--danger)"
           fontFamily="var(--font-hand), cursive"
           fontSize="26"
           textAnchor="middle"
@@ -384,7 +385,7 @@ function ChainBars() {
             <text x="190" y={y} fill={INK} fontSize="15" textAnchor="end" fontFamily="var(--font-geist-sans), sans-serif">
               {billions(row.value)}
             </text>
-            <rect x="-190" y={y + 8} width="380" height="12" rx="6" fill="#e4efe9" />
+            <rect x="-190" y={y + 8} width="380" height="12" rx="6" fill="var(--track)" />
             <rect x="-190" y={y + 8} width={380 * row.width} height="12" rx="6" fill={GREEN} />
           </g>
         );
@@ -401,7 +402,7 @@ function ReserveBoard() {
       <text x="0" y="-268" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="32">
         {reserves.asOf}
       </text>
-      <text x="0" y="-236" fill="#5c675f" textAnchor="middle" fontSize="13">
+      <text x="0" y="-236" fill={MUTED} textAnchor="middle" fontSize="13">
         Tether International, S.A. de C.V.
       </text>
 
@@ -413,8 +414,8 @@ function ReserveBoard() {
         ] as const
       ).map(([label, value, color], index) => (
         <g key={label} transform={`translate(-230 ${-200 + index * 78})`}>
-          <rect width="210" height="68" rx="14" fill="#fffdf8" stroke="#d7d1c7" />
-          <text x="16" y="26" fill="#5c675f" fontSize="13">
+          <rect width="210" height="68" rx="14" fill="var(--card)" stroke="var(--line)" />
+          <text x="16" y="26" fill={MUTED} fontSize="13">
             {label}
           </text>
           <text x="16" y="50" fill={color} fontSize="18">
@@ -435,14 +436,14 @@ function ReserveBoard() {
         </g>
       ))}
 
-      <rect x="-230" y="48" width="460" height="86" rx="14" fill="#fff7ef" stroke="#e4c8a8" />
+      <rect x="-230" y="48" width="460" height="86" rx="14" fill="var(--note)" stroke="var(--note-line)" />
       <text x="-210" y="78" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="22">
         Left out of this total
       </text>
-      <text x="-210" y="106" fill="#5c675f" fontSize="14">
+      <text x="-210" y="106" fill={MUTED} fontSize="14">
         Tether Investments and other corporate money
       </text>
-      <text x="0" y="170" fill="#5c675f" textAnchor="middle" fontSize="14">
+      <text x="0" y="170" fill={MUTED} textAnchor="middle" fontSize="14">
         A holder does not own a slice. Cash-out is face value, minus fees.
       </text>
     </g>
@@ -452,7 +453,7 @@ function ReserveBoard() {
 function InterestSplit() {
   return (
     <g fontFamily="var(--font-geist-sans), sans-serif">
-      <rect x="-270" y="-150" width="230" height="250" rx="18" fill="#fffdf8" stroke="#d7d1c7" />
+      <rect x="-270" y="-150" width="230" height="250" rx="18" fill="var(--card)" stroke="var(--line)" />
       <circle cx="-155" cy="-78" r="36" fill={PAPER} stroke={INK} strokeWidth="2.5" />
       <text x="-155" y="-68" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="28">
         T
@@ -463,7 +464,7 @@ function InterestSplit() {
       <text x="-155" y="28" fill={GREEN} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="40">
         $1
       </text>
-      <text x="-155" y="58" fill="#5c675f" textAnchor="middle" fontSize="14">
+      <text x="-155" y="58" fill={MUTED} textAnchor="middle" fontSize="14">
         face value, minus fees
       </text>
 
@@ -478,17 +479,17 @@ function InterestSplit() {
         the return
       </text>
 
-      <rect x="40" y="-150" width="230" height="250" rx="18" fill="#eef7f3" stroke={GREEN} />
+      <rect x="40" y="-150" width="230" height="250" rx="18" fill="var(--keep)" stroke={GREEN} />
       <text x="155" y="-78" fill={INK} textAnchor="middle" fontFamily="var(--font-hand), cursive" fontSize="30">
         Tether keeps it
       </text>
-      <text x="155" y="-28" fill="#5c675f" textAnchor="middle" fontSize="15">
+      <text x="155" y="-28" fill={MUTED} textAnchor="middle" fontSize="15">
         Interest on the reserves
       </text>
-      <text x="155" y="4" fill="#5c675f" textAnchor="middle" fontSize="15">
+      <text x="155" y="4" fill={MUTED} textAnchor="middle" fontSize="15">
         is not paid to holders.
       </text>
-      <text x="0" y="150" fill="#5c675f" textAnchor="middle" fontSize="14">
+      <text x="0" y="150" fill={MUTED} textAnchor="middle" fontSize="14">
         Holding USDT is not a savings account.
       </text>
     </g>
@@ -507,11 +508,11 @@ export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) 
     >
       <defs>
         <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(32)">
-          <line x1="0" y1="0" x2="0" y2="7" stroke="#8dceb8" strokeWidth="1.4" />
+          <line x1="0" y1="0" x2="0" y2="7" stroke="var(--hatch)" strokeWidth="1.4" />
         </pattern>
         <radialGradient id="ledger-shade" cx="50%" cy="40%" r="70%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#cfc6b8" stopOpacity="0.35" />
+          <stop offset="0%" stopColor="var(--shade-start)" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="var(--shade-end)" stopOpacity="0.35" />
         </radialGradient>
       </defs>
 
@@ -544,7 +545,7 @@ export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) 
           <text x="-126" y="4" fill={INK} fontSize="16" fontFamily="var(--font-geist-sans), sans-serif">
             6 decimal places
           </text>
-          <text x="-126" y="32" fill="#5c675f" fontSize="15" fontFamily="var(--font-geist-sans), sans-serif">
+          <text x="-126" y="32" fill={MUTED} fontSize="15" fontFamily="var(--font-geist-sans), sans-serif">
             smallest unit 0.000001
           </text>
           <text x="-126" y="78" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="28">
@@ -584,7 +585,7 @@ export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) 
           <text x="-160" y="-90" fill={INK} fontFamily="var(--font-hand), cursive" fontSize="30">
             one dollar, on Tether’s site
           </text>
-          <line x1="-160" y1="0" x2="170" y2="0" stroke="#c9c2b6" strokeWidth="2" strokeDasharray="4 6" />
+          <line x1="-160" y1="0" x2="170" y2="0" stroke="var(--dash)" strokeWidth="2" strokeDasharray="4 6" />
           <text x="178" y="4" fill={GREEN} fontSize="14" fontFamily="var(--font-geist-sans), sans-serif">
             $1
           </text>
@@ -595,7 +596,7 @@ export function Coin({ scene, previous, progress, filter, reduced }: CoinProps) 
             strokeWidth="2.5"
             strokeLinecap="round"
           />
-          <text x="-160" y="78" fill="#5c675f" fontSize="16" fontFamily="var(--font-geist-sans), sans-serif">
+          <text x="-160" y="78" fill={MUTED} fontSize="16" fontFamily="var(--font-geist-sans), sans-serif">
             exchanges trade at whatever buyers pay
           </text>
         </g>
