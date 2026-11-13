@@ -422,12 +422,12 @@ export const chapters: Chapter[] = [
   },
   {
     id: "close",
-    title: "Now follow the money",
+    title: "USDT is just the beginning.",
     scene: "intro",
     side: null,
     paragraphs: [
-      "You have seen how USDT is created, how it moves, and what stands behind it. But USDT is only one piece of a much larger financial system.",
-      "The next chapter is about more than stablecoins. It is about who gets to issue money, move it, and build the infrastructure around it"
+      "You have seen how USDT is created, what backs its value, and how it moves across blockchains. But it is not the only way dollars exist on-chain.",
+      "There is another major player in this space: USDC. It serves a similar purpose, but operates under a different issuer, reserve structure, and approach."
     ],
     glossary: [],
     sources: [],

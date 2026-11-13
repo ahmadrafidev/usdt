@@ -104,7 +104,7 @@ export function ChapterCopy({ chapter, index, filter, onFilter, toy, onToy, ref 
       {chapter.id === "close" ? (
         <div className="mt-10 max-w-md">
           <p className="font-[family-name:var(--font-hand)] text-xl text-[var(--green)] sm:text-3xl">
-            Want to learn more about USDC?
+            Curious how USDC works?
           </p>
           <a
             href="https://whatisusdc.vercel.app/"
